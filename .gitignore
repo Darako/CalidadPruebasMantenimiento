@@ -1,0 +1,26 @@
+# --- Unity Basic ---
+
+/RemoteSystemsTempFiles
+
+.vs/
+
+bin/
+build/
+dist/
+Library/
+Assets/Resources/
+Assets/Plugin/
+Assets/Prefabs/
+Temp/
+obj/
+
+*.odg#
+*.csproj
+*.sln
+*.userprefs
+*.suo
+
+# --- Especificaciones de proyecto ---
+
+
+

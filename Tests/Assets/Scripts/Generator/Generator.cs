@@ -53,6 +53,8 @@ public class Generator : MonoBehaviour {
             dropdownCircleColor.GetComponent<Dropdown>().options.Add(dropdownPointList);
             dropdownCircleColor.GetComponent<Dropdown>().RefreshShownValue();
         }
+        Analytics.SetUserGender(Gender.Unknown);
+        Analytics.SetUserBirthYear(1987);
     }
 
 
@@ -63,7 +65,7 @@ public class Generator : MonoBehaviour {
         dropdownPointsCircle.GetComponent<Dropdown>().ClearOptions();
         dropdownSquare.GetComponent<Dropdown>().ClearOptions();
         dropdownCircle.GetComponent<Dropdown>().ClearOptions();
-
+        //Refresh Point Lists
         Dropdown.OptionData dropdownPointList = new Dropdown.OptionData();
         if (pointList.Count > 0) {
             dropdownPointsSquare.GetComponent<Dropdown>().value = 0;
@@ -75,8 +77,8 @@ public class Generator : MonoBehaviour {
                 dropdownPointsCircle.GetComponent<Dropdown>().options.Add(dropdownPointList);
                 dropdownPointsCircle.GetComponent<Dropdown>().RefreshShownValue();
             }
-        }        
-
+        }
+        //Refresh Square Lists
         Dropdown.OptionData dropdownSquareList = new Dropdown.OptionData();
         if (squareList.Count > 0) {
             dropdownSquare.GetComponent<Dropdown>().value = 0;
@@ -86,7 +88,7 @@ public class Generator : MonoBehaviour {
                 dropdownSquare.GetComponent<Dropdown>().RefreshShownValue();
             }
         }
-
+        //Refresh Circle Lists
         Dropdown.OptionData dropdownCircleList = new Dropdown.OptionData();
         if (circleList.Count > 0) {
             dropdownCircle.GetComponent<Dropdown>().value = 0;
@@ -106,7 +108,7 @@ public class Generator : MonoBehaviour {
             pointList.Add(point);
             ChangeDropdowns();
         }
-        //Send Event
+        //Send Custom Event
         Dictionary<string, object> pointDictionary = new Dictionary<string, object>();
         int index = 0;
         foreach (Punto pointListed in pointList) {
@@ -127,11 +129,11 @@ public class Generator : MonoBehaviour {
             squareList.Add(square);
             ChangeDropdowns();
         }
-        //Send Event
+        //Send Custom CustomEvent
         Dictionary<string, object> squareDictionary = new Dictionary<string, object>();
         int index = 0;
         foreach (FiguraGeometrica squareListed in squareList) {
-            squareDictionary.Add(index.ToString(), squareListed.ToString());
+            squareDictionary.Add(index.ToString(), squareListed.Dibujar());
             index++;
         }
         Analytics.CustomEvent("List Squares", squareDictionary);
@@ -148,11 +150,11 @@ public class Generator : MonoBehaviour {
             circleList.Add(circle);
             ChangeDropdowns();
         }
-        //Send Event
+        //Send Custom Event
         Dictionary<string, object> circleDictionary = new Dictionary<string, object>();
         int index = 0;
         foreach (FiguraGeometrica circleListed in circleList) {
-            circleDictionary.Add(index.ToString(), circleListed.ToString());
+            circleDictionary.Add(index.ToString(), circleListed.Dibujar());
             index++;
         }
         Analytics.CustomEvent("List Circles", circleDictionary);
@@ -172,10 +174,12 @@ public class Generator : MonoBehaviour {
         ChangeColor(color, squareInstance);
         float scale = Mathf.Sqrt(squareList.ToArray()[squarePosition].Area());
         ChangeScale(scale, squareInstance);
-        //Send Event   
+        //Send Custom Event   
         Analytics.CustomEvent("Draw Square", new Dictionary<string, object> {
-            {"Drawing square", squareList.ToArray()[squarePosition].ToString() }
+            {"Drawing square", squareList.ToArray()[squarePosition].Dibujar() }
         });
+        //Send Monetization Event
+        Analytics.Transaction(squareList.ToArray()[squarePosition].Dibujar(), (decimal) scale * 2, "€", null, "Darako");
     }
 
     public void DrawCircle() {
@@ -194,8 +198,10 @@ public class Generator : MonoBehaviour {
         ChangeScale(scale, circleInstance);
         //Send Event   
         Analytics.CustomEvent("Draw Square", new Dictionary<string, object> {
-            {"Drawing circle", circleList.ToArray()[circlePosition].ToString() }
+            {"Drawing circle", circleList.ToArray()[circlePosition].Dibujar() }
         });
+        //Send Monetization Event
+        Analytics.Transaction(circleList.ToArray()[circlePosition].Dibujar(), (decimal)scale * 2, "€", null, "Darako");
     }
 
     public string ReturnColor(int i) {

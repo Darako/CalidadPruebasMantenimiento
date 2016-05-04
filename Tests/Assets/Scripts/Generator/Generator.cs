@@ -164,6 +164,9 @@ public class Generator : MonoBehaviour {
         if(squareInstance != null) {
             Destroy(squareInstance);
         }
+        if (circleInstance != null) {
+            Destroy(circleInstance);
+        }
         int squarePosition = dropdownSquare.GetComponent<Dropdown>().value;
         squareInstance = Instantiate<GameObject>(square) as GameObject;
         squareInstance.transform.parent = drawer.transform;
@@ -186,6 +189,9 @@ public class Generator : MonoBehaviour {
         if (circleInstance != null) {
             Destroy(circleInstance);
         }
+        if (squareInstance != null) {
+            Destroy(squareInstance);
+        }
         int circlePosition = dropdownSquare.GetComponent<Dropdown>().value;
         circleInstance = Instantiate<GameObject>(circle) as GameObject;
         circleInstance.transform.parent = drawer.transform;
@@ -197,7 +203,7 @@ public class Generator : MonoBehaviour {
         float scale = Mathf.Sqrt(circleList.ToArray()[circlePosition].Area());
         ChangeScale(scale, circleInstance);
         //Send Event   
-        Analytics.CustomEvent("Draw Square", new Dictionary<string, object> {
+        Analytics.CustomEvent("Draw Circle", new Dictionary<string, object> {
             {"Drawing circle", circleList.ToArray()[circlePosition].Dibujar() }
         });
         //Send Monetization Event

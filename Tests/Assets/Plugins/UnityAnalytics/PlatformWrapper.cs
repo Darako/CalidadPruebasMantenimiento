@@ -1,9 +1,9 @@
 //Unity 4.5 and above switched WWW to use Dictionary instead of Hashtable
-#if UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_4 
+#if UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_4 || UNITY_5_3
 #define UNITY_USE_WWW_HASHTABLE
 #endif
 
-#if (UNITY_IPHONE || UNITY_ANDROID || UNITY_STANDALONE || UNITY_WEBPLAYER || UNITY_WEBGL || UNITY_METRO) && (UNITY_4_2 || UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7 || UNITY_4_8 || UNITY_4_9 || UNITY_5_0 || UNITY_5_1)
+#if (UNITY_IPHONE || UNITY_ANDROID || UNITY_STANDALONE || UNITY_WEBPLAYER || UNITY_WEBGL || UNITY_METRO) && (UNITY_4_2 || UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7 || UNITY_4_8 || UNITY_4_9 || UNITY_5_0 || UNITY_5_1 || UNITY_5_3)
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -219,7 +219,8 @@ namespace UnityEngine.Cloud.Analytics
 		#if UNITY_USE_WWW_HASHTABLE
 		public IWWW newWWW(string url, byte[] body, Dictionary<string, string> headers)
 		{
-			WWW www = new WWW(url, body, DictToHash(headers));
+            //DictToHash(headers)
+            WWW www = new WWW(url, body, headers);
 			return new UnityWWW(www);
 		}
 		
